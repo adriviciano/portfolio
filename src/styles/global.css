@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: #050505;
+  color: #f5f5f5;
+}
+
+.neon-text {
+  text-shadow: 0 0 5px #bc13fe, 0 0 10px #bc13fe, 0 0 15px #bc13fe, 0 0 20px #bc13fe;
+}
+
+.neon-border {
+  box-shadow: 0 0 5px #bc13fe, 0 0 10px #bc13fe, inset 0 0 5px #bc13fe, inset 0 0 10px #bc13fe;
+}
+
+.neon-hover:hover {
+  text-shadow: 0 0 8px #bc13fe, 0 0 15px #bc13fe, 0 0 20px #bc13fe;
+  transition: text-shadow 0.3s ease;
+}
+
+.project-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.project-card:hover {
+  transform: translateY(-10px) scale(1.03);
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, rgba(106, 13, 173, 0.1) 0%, rgba(11, 2, 18, 0.8) 100%);
+}
+
+.project-content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
