@@ -17,5 +17,8 @@
     "marked": "^16.2.1",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.12"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
