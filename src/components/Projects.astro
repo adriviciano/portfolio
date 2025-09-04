@@ -2,18 +2,14 @@
 import fs from 'fs';
 import path from 'path';
 
-// Carpeta de proyectos
 const projectsDir = './src/projects';
 
-// Leemos todas las carpetas de proyectos
-const projectFolders = fs.readdirSync(projectsDir).filter(f => fs.statSync(path.join(projectsDir, f)).isDirectory());
+const mdFiles = fs.readdirSync(projectsDir).filter(f => f.endsWith('.md'));
 
-// Creamos array con los datos de cada proyecto
-const projects = projectFolders.map(folder => {
-  const mdPath = path.join(projectsDir, folder, 'index.md');
+const projects = mdFiles.map(file => {
+  const mdPath = path.join(projectsDir, file);
   const raw = fs.readFileSync(mdPath, 'utf-8');
 
-  // Extraemos frontmatter (YAML) manualmente
   const match = raw.match(/---\s*([\s\S]*?)\s*---/);
   const frontmatter: Record<string, any> = {};
   if (match) {
@@ -24,11 +20,13 @@ const projects = projectFolders.map(folder => {
     });
   }
 
+  const projectTitle = path.basename(file, '.md');
+
   return {
-    folder,
-    title: frontmatter.title,
-    description: frontmatter.description,
-    preview: `/src/projects/${folder}/preview.jpg`,
+    file,
+    title: frontmatter.title || projectTitle,
+    description: frontmatter.description || '',
+    preview: `/projects/${projectTitle}.jpg`,
   };
 });
 ---
@@ -36,7 +34,7 @@ const projects = projectFolders.map(folder => {
 <section id="projects" class="py-20 gradient-bg">
   <div class="container mx-auto px-6">
     <h2 class="text-4xl font-bold mb-16 text-center neon-text">Mis Proyectos</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
       {projects.map(project => (
         <div class="project-card group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-900/20 to-black/50 border border-purple-900/30 hover:border-purple-500/50">
           <div class="h-48 overflow-hidden">
@@ -46,7 +44,7 @@ const projects = projectFolders.map(folder => {
             <h3 class="text-xl font-semibold mb-2 text-purple-300">{project.title}</h3>
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
               <p class="text-gray-300 mb-4">{project.description}</p>
-              <a href={`/projects/${project.folder}`} class="text-purple-400 hover:text-purple-300 font-medium inline-flex items-center neon-hover">
+              <a href={`/projects/${project.title}`} class="text-purple-400 hover:text-purple-300 font-medium inline-flex items-center neon-hover">
                 Ver más
                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
